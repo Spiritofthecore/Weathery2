@@ -1,0 +1,6 @@
+framework module Pods_Weathery {
+  umbrella header "Pods-Weathery-umbrella.h"
+
+  export *
+  module * { export * }
+}
