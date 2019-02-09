@@ -15,11 +15,19 @@ import Firebase
 
 
 
-class ViewController: UIViewController, UICollectionViewDataSource, UICollectionViewDelegate, UISearchBarDelegate, SearchResultsHandler, GIDSignInUIDelegate, GIDSignInDelegate{
+class ViewController: UIViewController, UICollectionViewDataSource, UICollectionViewDelegate, UISearchBarDelegate, SearchResultsHandler, GIDSignInUIDelegate, GIDSignInDelegate, EditWeatherCell{
+    
+    func DeleteTheCell(indexPath: IndexPath) {
+        WeatherList.removeDuplicates()
+        WeatherList.remove(at: indexPath.row)
+        LocationList.remove(at: indexPath.row)
+        collectionView.reloadData()
+    }
+    
 
     //Outlet
     var theUser: User = User()
-    let AccuWeatherAPIKey = "YqSVurA3gFXr3uNaaNZoR9wnQHmo6qt9"
+    let AccuWeatherAPIKey = "vEedMZKgfqHjY8tylOiBX8oQS6MjIcMj"
     var WeatherList: [Weather] = []
     var LocationList: [Location] = []
     var isEditting: Bool! = false
@@ -98,6 +106,8 @@ class ViewController: UIViewController, UICollectionViewDataSource, UICollection
     //functions
     func SignOut() {
         GIDSignIn.sharedInstance()?.signOut()
+        UserNameLabel.text = "not yet sign in"
+        ProfileImage.image = UIImage()
         let alert = UIAlertController(title: "Sign Out", message: "succeeded", preferredStyle: .alert)
         alert.addAction(UIAlertAction(title: "OK", style: UIAlertAction.Style.default, handler: { action in
             alert.dismiss(animated: true, completion: nil)
@@ -112,7 +122,24 @@ class ViewController: UIViewController, UICollectionViewDataSource, UICollection
             signInButton.isHidden = false
         }
     }
-    
+    func getData(from url: URL, completion: @escaping (Data?, URLResponse?, Error?) -> ()) {
+        URLSession.shared.dataTask(with: url, completionHandler: completion).resume()
+    }
+    func downloadImage(from url: URL) {
+        print("Download Started")
+        getData(from: url) { data, response, error in
+            guard let data = data, error == nil else { return }
+            print(response?.suggestedFilename ?? url.lastPathComponent)
+            print("Download Finished")
+            DispatchQueue.main.async() {
+                self.ProfileImage.image = UIImage(data: data)
+            }
+        }
+    }
+    func changeUserUI() {
+        UserNameLabel.text = theUser.userName + "@gmail.com"
+        downloadImage(from: theUser.userImageURL!)
+    }
     
     
     
@@ -166,6 +193,9 @@ class ViewController: UIViewController, UICollectionViewDataSource, UICollection
         let imageName = "img\(WeatherList[indexPath.row].weatherImageKey).png"
         cell.WeatherImage.image = UIImage(named: "WeatherIcon/" + imageName)
         self.WeatherList.append(WeatherList[indexPath.row])
+        cell.DeleteButton.setImage(UIImage(named: "X.png"), for: .normal)
+        cell.indexPath = indexPath
+        cell.delegate = self
         return cell
     }
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
@@ -180,19 +210,7 @@ class ViewController: UIViewController, UICollectionViewDataSource, UICollection
             }
         }
     }
-    func changeUserUI() {
-        UserNameLabel.text = theUser.userName + "@gmail.com"
-        URLSession.shared.dataTask(with: theUser.userImageURL!) { (data, _, error) in
-            if (error != nil) {
-                print("cant download image")
-                return
-            } else {
-                DispatchQueue.main.async {
-                    self.ProfileImage.image = UIImage(data: data!)
-                }
-            }
-        }
-    }
+ 
     
     
     
@@ -259,20 +277,18 @@ class ViewController: UIViewController, UICollectionViewDataSource, UICollection
                             
                             weatherInfo = Weather.init(temperature: Temperature, weatherImageKey: imageKey, realFeelTemperature: realFeelTemperature, RelativeHumidity: relativeHumidity, WindSpeed: windSpeed, UVIndex: UVIndex, CloudCover: cloudCover, Pressure: Pressure, locationName: location.CityName, locationKey: location.CityKey)
                             CurrentWeatherList.append(weatherInfo)
-                            self.weatherLoop.leave()
                         } else {
                             let alert = UIAlertController(title: "Lỗi", message: "Dịch vụ tạm dừng", preferredStyle: .alert)
                             alert.addAction(UIAlertAction(title: "OK", style: UIAlertAction.Style.default, handler: { action in
                                 alert.dismiss(animated: true, completion: nil)
                             }))
                             self.present(alert, animated: true, completion: nil)
-                            self.weatherLoop.leave()
                         }
                     }
                 } catch {
                     print("error")
-                    self.weatherLoop.leave()
                 }
+                self.weatherLoop.leave()
             }).resume()
         }
         
@@ -322,7 +338,7 @@ class ViewController: UIViewController, UICollectionViewDataSource, UICollection
         } else {
             var userName = user.profile.email!
             userName = userName.cutGmailTail()
-            self.theUser = User(username: userName, userid: user.userID, userimageurl: user.profile.imageURL(withDimension: 50))
+            self.theUser = User(username: userName, userid: user.userID, userimageurl: user.profile.imageURL(withDimension: 100))
             // ...
 //            print(theUser.userName)
 //            for item in WeatherList {
@@ -461,6 +477,8 @@ class ViewController: UIViewController, UICollectionViewDataSource, UICollection
 
         tableView.register(UITableViewCell.self, forCellReuseIdentifier: "EditCell")
         tableView2.register(UITableViewCell.self, forCellReuseIdentifier: "InfoCell")
+
+
         
         celcius = false // celsius is default
         //isSync = false

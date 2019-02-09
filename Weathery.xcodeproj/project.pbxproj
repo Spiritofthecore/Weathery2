@@ -11,6 +11,7 @@
 		FA84610621F86B6D0040E361 /* WeatherCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA84610521F86B6D0040E361 /* WeatherCell.swift */; };
 		FA8F6A1721F976FA002F28FB /* searchResultController.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA8F6A1621F976FA002F28FB /* searchResultController.swift */; };
 		FA8F6A1B21F9C198002F28FB /* Location.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA8F6A1A21F9C198002F28FB /* Location.swift */; };
+		FA9F866F220D26C30088DCDF /* X.png in Resources */ = {isa = PBXBuildFile; fileRef = FA9F866E220D26BA0088DCDF /* X.png */; };
 		FAA4764121FC7B90005AC3DF /* User.swift in Sources */ = {isa = PBXBuildFile; fileRef = FAA4764021FC7B90005AC3DF /* User.swift */; };
 		FAE1B46421F8BADD00E1E0AC /* Weather.swift in Sources */ = {isa = PBXBuildFile; fileRef = FAE1B46321F8BADD00E1E0AC /* Weather.swift */; };
 		FAE1B46621F8CF0500E1E0AC /* WeatherIcon in Resources */ = {isa = PBXBuildFile; fileRef = FAE1B46521F8CF0500E1E0AC /* WeatherIcon */; };
@@ -32,6 +33,7 @@
 		FA84610521F86B6D0040E361 /* WeatherCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WeatherCell.swift; sourceTree = "<group>"; };
 		FA8F6A1621F976FA002F28FB /* searchResultController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = searchResultController.swift; sourceTree = "<group>"; };
 		FA8F6A1A21F9C198002F28FB /* Location.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Location.swift; sourceTree = "<group>"; };
+		FA9F866E220D26BA0088DCDF /* X.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = X.png; sourceTree = "<group>"; };
 		FAA4764021FC7B90005AC3DF /* User.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = User.swift; sourceTree = "<group>"; };
 		FAE1B46321F8BADD00E1E0AC /* Weather.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Weather.swift; sourceTree = "<group>"; };
 		FAE1B46521F8CF0500E1E0AC /* WeatherIcon */ = {isa = PBXFileReference; lastKnownFileType = folder; name = WeatherIcon; path = Weathery/WeatherIcon; sourceTree = "<group>"; };
@@ -101,6 +103,7 @@
 		FAF0021021F85E1A0093FC93 /* Weathery */ = {
 			isa = PBXGroup;
 			children = (
+				FA9F866E220D26BA0088DCDF /* X.png */,
 				FAE6807F220537B300D291B4 /* UIButtonX.swift */,
 				FAEA84A822028C4700168622 /* background.jpg */,
 				FAEA84A922028C4800168622 /* background2.jpg */,
@@ -182,6 +185,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				FA9F866F220D26C30088DCDF /* X.png in Resources */,
 				FAE1B46621F8CF0500E1E0AC /* WeatherIcon in Resources */,
 				FAEA84AE22028C4800168622 /* GoogleService-Info.plist in Resources */,
 				FAF0021C21F85E1C0093FC93 /* LaunchScreen.storyboard in Resources */,
